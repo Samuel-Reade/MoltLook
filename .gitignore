@@ -1,0 +1,6 @@
+# Rebuilt by pipeline steps 1–4 (~10 GB)
+data/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store

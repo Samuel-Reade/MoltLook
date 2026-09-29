@@ -1,0 +1,8 @@
+step,n_rows
+total,6155813
+1 injection (8 adversarial patterns),4541
+2 exact duplicate text,687059
+3 duplicator agent (>90%),11204
+4 empty text,1
+remaining,5453008
+"(info) remaining with API-pattern flag, kept",6690

@@ -1,0 +1,9 @@
+product,before_dedup,after_dedup,largest_cluster
+GitHub,59260,53459,1774
+Cloudflare,10878,10682,60
+Stripe,5727,5586,12
+Vercel,5266,5154,32
+Notion,1969,1949,6
+Supabase,1561,1515,8
+Twilio,549,539,4
+Brave Search,467,464,2
