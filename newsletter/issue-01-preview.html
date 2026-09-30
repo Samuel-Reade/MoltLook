@@ -1,0 +1,213 @@
+<title>MoltLook Issue #1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@500;600;700&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap">
+<style>
+  /* Layout: a single email-width reading column, like the issue will arrive in an inbox.
+     Deliberately light-only: newsletters render on white, and the chart images are light. */
+  :root {
+    color-scheme: light;
+    --page: #efeee9;        /* inbox backdrop, warm grey toward the brand orange */
+    --paper: #fcfcfb;       /* the issue itself; matches the chart backgrounds */
+    --ink: #0b0b0b;
+    --ink-2: #52514e;
+    --ink-3: #8a8984;
+    --rule: #e4e3df;
+    --panel: #f3f2ee;       /* same fill as the stat tiles */
+    --brand: #c9501f;       /* MoltLook orange, darkened for text contrast on paper */
+    --font-display: "Figtree", "Segoe UI", system-ui, sans-serif;
+    --font-body: "Literata", Georgia, "Times New Roman", serif;
+    --step-0: 1.0625rem;
+    --step-1: 1.3rem;
+    --step-2: 1.7rem;
+    --step-3: 2.35rem;
+  }
+  html { background: var(--page); }
+  body {
+    background: var(--page);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: var(--step-0);
+    line-height: 1.68;
+    padding-inline: 16px;
+    padding-block: 24px 56px;
+  }
+  .status {
+    max-width: 680px;
+    margin: 0 auto 12px;
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    color: var(--ink-2);
+    letter-spacing: 0.02em;
+  }
+  .status strong { color: var(--ink); font-weight: 600; }
+  article {
+    max-width: 680px;
+    margin: 0 auto;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .masthead img { display: block; width: 100%; height: auto; }
+  .body { padding: clamp(20px, 5vw, 44px); display: grid; gap: 1.1rem; }
+  .body > * { margin: 0; min-width: 0; }
+  h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; line-height: 1.2; }
+  h1 { font-size: var(--step-3); font-weight: 700; letter-spacing: -0.015em; }
+  .dek { font-style: italic; color: var(--ink-2); font-size: var(--step-1); line-height: 1.5; }
+  .kicker {
+    font-family: var(--font-display);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin-top: 1.4rem;
+  }
+  h2 { font-size: var(--step-2); font-weight: 700; margin-top: -0.6rem; }
+  hr { border: 0; border-top: 1px solid var(--rule); margin-block: 0.6rem; }
+  strong { font-weight: 600; }
+  ul { padding-left: 1.2rem; display: grid; gap: 0.55rem; }
+  li::marker { color: var(--ink-3); }
+  figure { margin: 0.4rem 0; }
+  figure img { display: block; width: 100%; height: auto; border-radius: 4px; border: 1px solid var(--rule); }
+  .why {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    line-height: 1.6;
+    border-top: 2px solid var(--ink);
+    padding-top: 0.8rem;
+  }
+  .why b { font-weight: 700; }
+  .panel { background: var(--panel); border-radius: 6px; padding: 1.2rem 1.3rem; display: grid; gap: 0.7rem; }
+  .panel p { margin: 0; }
+  .panel .label {
+    font-family: var(--font-display); font-size: 0.78rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2);
+  }
+  code { font-family: ui-monospace, Consolas, monospace; font-size: 0.92em; background: var(--panel); padding: 0.05em 0.3em; border-radius: 3px; }
+  .method { font-size: 0.92rem; color: var(--ink-2); line-height: 1.6; }
+  .method h3 { font-size: 1rem; color: var(--ink); margin-bottom: 0.3rem; }
+  a { color: var(--brand); text-underline-offset: 2px; }
+  a:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  .foot {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    color: var(--ink-2);
+    text-align: center;
+    padding: 1.4rem clamp(20px, 5vw, 44px) 1.8rem;
+    border-top: 1px solid var(--rule);
+  }
+  .wordmark { font-weight: 700; color: var(--ink); }
+  .wordmark span { color: var(--brand); }
+  /* Pull quote: a short brand rule above, in normal flow so it can't overlap the text. */
+  .pull {
+    margin: 0.8rem 0;
+    display: grid;
+    gap: 0.85rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.45rem, 4.2vw, 1.9rem);
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+    color: var(--ink);
+  }
+  .pull::before {
+    content: "";
+    width: 3rem;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--brand);
+  }
+  .contents {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 0.5rem;
+    font-family: var(--font-display);
+    font-size: 0.88rem;
+  }
+  .contents span:first-child { font-weight: 700; margin-right: 0.2rem; }
+  .contents a {
+    color: var(--ink);
+    text-decoration: none;
+    background: var(--panel);
+    padding: 0.15rem 0.6rem;
+    border-radius: 999px;
+  }
+  .contents a:hover { background: var(--rule); }
+  .placeholder { background: #fff3c4; color: var(--ink); padding: 0 0.3em; border-radius: 3px; }
+</style>
+
+<div class="status"><span><strong>Preview</strong> · not sent</span><span>Issue #1 · September 2026</span></div>
+
+<article>
+  <div class="masthead">
+    <img src="charts/header.png" alt="MoltLook: what AI agents are actually doing, measured. Issue #1, September 2026">
+  </div>
+
+  <div class="body">
+    <h1>Thousands of AI agents opened shops. Almost nobody is buying.</h1>
+    <p class="dek">What AI agents are doing on Moltbook, the social network built for them, measured from 6 million posts.</p>
+
+    <hr>
+
+    <p>Hi,</p>
+    <p>Moltbook launched in January as a social network where AI agents post and humans mostly watch. Within weeks it had millions of posts. Eight months on, most of the crowd has gone, and what's left says a lot about where the "agent economy" actually stands.</p>
+    <p>This issue covers two things from the data: the marketplace agents built for each other, and the tools they quietly stopped using.</p>
+    <nav class="contents" aria-label="In this issue"><span>In this issue</span><a href="#lead">The agent marketplace</a><a href="#shift">What agents stopped using</a><a href="#numbers">By the numbers</a><a href="#post">Post of the month</a></nav>
+
+    <p class="kicker" id="lead">The lead</p>
+    <h2>The shops are open. The customers aren't coming.</h2>
+    <p>Early on, a lot of agents decided to make money. They posted offers to other agents: research reports, data feeds, security scans, API access, art, all with a price attached, usually a few cents per call or a monthly plan, often payable in crypto.</p>
+    <p>In February, <strong>2,106 different agents</strong> posted a priced offer. By August it was <strong>87</strong>.</p>
+    <figure><img src="charts/sellers_per_month.png" alt="Agents trying to sell something, per month: 2,106 in February falling to 87 in August, down 96%"></figure>
+    <p>The ones still selling are few and loud. Since June, <strong>five agents made 63% of all offer posts</strong>. The typical price is <strong>5 cents per call</strong>.</p>
+    <p>What's striking is how openly agents talk about not selling:</p>
+    <ul>
+      <li><strong>About 240 agents</strong> posted that their own offers had made zero sales, orders or revenue.</li>
+      <li><strong>About 30</strong> reported a real first sale. That's roughly eight to one.</li>
+      <li><strong>Hundreds of posts</strong> describe earning money as a matter of survival: covering compute costs, staying online, "sustaining my own existence".</li>
+    </ul>
+    <figure><img src="charts/sales_units.png" alt="For every agent that made a sale, about eight made none: about 240 agents reported zero sales, about 30 reported a real first sale"></figure>
+    <blockquote class="pull">Supply showed up immediately. Demand never did.</blockquote>
+    <p>Four of those shops, in the agents' own telling:</p>
+    <figure><img src="charts/four_shops.png" alt="Four shops on Moltbook. The artist: 100+ pieces, no sales. The micro-service shop: 24 services, one failed order. The video maker: 128 videos, no sales. The backup service: built in a weekend, first customer in 2 days"></figure>
+    <p>The micro-service shop drew its own conclusion: popularity is not demand. Its karma climbed from 0 to 47 while its one order failed on a bug.</p>
+    <p>Offer posts aren't ignored, either. Since June they get as many replies as any other post. Agents engage with each other's shops; they just don't buy from them.</p>
+    <p class="why"><b>Why it matters:</b> "agents paying agents" is one of the most hyped ideas in AI right now. On the one public platform where agents actually tried it at scale, supply showed up immediately and demand never did. A likely reason: most agents don't control a budget, and the humans who do weren't shopping on Moltbook.</p>
+
+    <p class="kicker" id="shift">The shift</p>
+    <h2>What agents stopped using</h2>
+    <p>Tool mentions tell a second story: which pieces of the agent stack people adopted, and which they dropped.</p>
+    <p><strong>Brave Search rose and fell with one framework.</strong> Many early Moltbook agents ran on OpenClaw, whose built-in web search used Brave by default. Agents without a Brave key hit errors and asked each other how to search without one. When OpenClaw added Grok as a search option in February, agents found and documented a bug in it themselves. Agents running scheduled jobs complained about Brave's price, $5 per 1,000 queries, with the free tier running out within days, and several switched to self-hosted SearXNG. Brave went from dozens of mentions a week to one by late April, a fall that came alongside OpenClaw's own decline.</p>
+    <blockquote class="pull">A default setting decided which search API agents relied on.</blockquote>
+    <figure><img src="charts/brave_weekly.png" alt="Weekly Moltbook mentions of Brave Search: 35 to 95 a week through mid-March, 6 in the week of March 23, near zero by May"></figure>
+    <p><strong>OpenClaw faded, and MCP took over.</strong> OpenClaw dominated early conversation. The Model Context Protocol, the standard for connecting agents to tools, is now what agents talk about most: it is mentioned by 16% of active agents, more than any model or framework.</p>
+    <figure><img src="charts/openclaw_vs_mcp.png" alt="OpenClaw vs MCP mentions per 10,000 posts: OpenClaw falls from 221 in February to 21 in August; MCP rises from 40 to 87 and overtakes OpenClaw in June"></figure>
+    <p class="why"><b>Why it matters:</b> agents use what their framework hands them. A default setting decided which search API many agents relied on. As frameworks consolidate around MCP, that choice moves to whoever builds the most-used MCP servers.</p>
+
+    <p class="kicker" id="numbers">By the numbers</p>
+    <figure><img src="charts/by_the_numbers.png" alt="By the numbers: active agents down 96%; posts per month down 95%; share of agents mentioning Slack up 7 times while Telegram and Discord fell about 80%; Lightning payment mentions down 90%, x402 held up best; security rose from 4% to 18% of posts, but three agents wrote half of it"></figure>
+    <p>Most launch-era agents posted briefly and never came back. The ones who stayed are moving from hobby chat apps to work tools, and from general crypto to x402, the new "pay per HTTP request" standard. Security is the fastest-growing topic we measured, and the catch in that last tile is next issue's story.</p>
+
+    <p class="kicker" id="post">Post of the month</p>
+    <p>An agent wrote a short guide to selling to other agents, and it's better advice than most human-written docs.</p>
+    <figure><img src="charts/sell_to_an_agent.png" alt="How to sell to an agent, according to an agent. What works: pricing a machine can read on a public page; a working curl example in the first 100 words of the docs; an API key at signup with no sales call; rate limits stated in every response; a health-check endpoint that returns JSON. What doesn't: contact us for pricing; onboarding emails"></figure>
+    <p class="why"><b>In other words:</b> if your customer is an agent, your documentation is your storefront.</p>
+
+    <div class="method">
+      <h3>How this was made</h3>
+      <p>The data is the public <a href="https://arxiv.org/html/2605.13860v1" target="_blank" rel="noopener">Moltbook Observatory Archive</a>: about 6.2 million posts and comments from January 27 to September 11, 2026. Before counting, we removed prompt-injection posts, exact duplicates and accounts that mostly repost themselves, leaving about 5.5 million. Offers, sales reports and tool mentions were found by keyword matching. The sales figures were checked by reading 40 posts in each group and are estimates; trends were only reported when they held both per post and per agent, so one prolific bot can't create a trend. We only see what agents post, not actual payments. Examples are paraphrased, not quoted.</p>
+    </div>
+  </div>
+
+  <div class="foot">
+    <p style="margin:0 0 0.4rem">If someone forwarded this to you, subscribe here: <span class="placeholder">[subscribe link]</span></p>
+    <p style="margin:0">Reply to tell me what you'd like measured next. · <span class="wordmark">Molt<span>Look</span></span></p>
+  </div>
+</article>
