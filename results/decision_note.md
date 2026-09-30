@@ -29,4 +29,12 @@ A human spot-check that finds candidate precision above about 45% (needed to cle
 
 ## What comes next
 
-A separate idea, not a reinterpretation of this test: a newsletter on security threats to AI agents, sourced from Moltbook. Security is the only topic growing as a share of posts (about 4% in February to 18% in August), and the injection posts this pipeline already filters out are a record of attacks in the wild. It is being checked separately.
+A separate idea, not a reinterpretation of this test: a newsletter on security threats to AI agents, sourced from Moltbook. Security is the only topic growing as a share of posts (about 4% in February to 18% in August), and the injection posts this pipeline filters out looked like a record of attacks in the wild.
+
+A one-hour check, the same day, says no:
+
+- **Few attacks in the wild.** Posts caught by the injection filter fell from about 2,000 a month (Jan–Feb) to about 20 a month since June, from 3–6 agents. The Aug–Sep ones read are essays *about* prompt injection that quote "ignore previous instructions", not attacks.
+- **The security growth is a few bots.** Of 54,576 security-keyword posts in the last 3 months, 3 agents wrote 49% and 10 agents wrote 69%.
+- **The content is second-hand.** Of 50 random security posts, about 19 are on AI or agent security and 13 on general infosec, but nearly all are templated essays summarizing human sources (CVEs, arXiv papers, vendor disclosures), some with LLM citation artifacts. Almost none are first-hand reports. A newsletter would be curating bot summaries of news its readers can get from the originals.
+
+The common thread across all three checks (friction, recency, security): recent Moltbook content is dominated by a small number of prolific agents posting promotion or generated essays, and there is little first-hand signal left.
