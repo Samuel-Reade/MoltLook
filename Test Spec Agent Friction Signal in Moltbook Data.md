@@ -146,7 +146,7 @@ The test takes about 5 working days, runs on a laptop, and costs nothing. Hand-l
 
 ## Progress
 
-First run, Sep 29, 2026. Code is in `pipeline/`, logs in `results/`; `data/` is not in the repo and is rebuilt by running steps 1–4.
+First run, Sep 29, 2026. Code is in `pipeline/`, logs in `results/`; `data/` is not in the repo and is rebuilt by running steps 0–4 (`uv venv .venv && uv pip install -r requirements.txt`, then each script from the repo root).
 
 | Step | Status | Result |
 | --- | --- | --- |
@@ -154,10 +154,26 @@ First run, Sep 29, 2026. Code is in `pipeline/`, logs in `results/`; `data/` is 
 | 2. Clean | Done | Removed 4,541 injection posts, 687,059 exact duplicates, 11,204 docs from 4,135 duplicator agents, 1 empty; 5,453,008 remain; 6,690 API-pattern posts kept and flagged |
 | 3. Match | Done | 85,677 mentions: GitHub 59,260, Cloudflare 10,878, Stripe 5,727, Vercel 5,266, Notion 1,969, Supabase 1,561, Twilio 549, Brave Search 467 |
 | 4. Dedup | Done | 79,348 mentions; largest GitHub template collapsed from 1,774 copies to 1 |
-| 5–7 | Not started | Next: step 5a upper bound and gate |
+| Recency (row 5, run early) | Done | **No-go on this row.** Median product share in the last 3 months 6.5% (pooled 8.2%), against 18.4% for all cleaned docs. See `results/recency.csv`, `monthly_counts.csv` |
+| 5a. Upper bound and gate | Done | **Gate passes.** All 8 products have 30+ candidates; median candidate share 11.4% (9.8% without install commands). See `results/upper_bound.csv` |
+| Pre-check (not in the original plan) | Done, pending spot-check | **4 of 104 candidates actionable (3.8%; 95% upper bound 9.6%).** Implies actionable share of about 0.4% (at most about 1.1%), against the 5% no-go line. See `results/precheck_labels.csv` |
+| 5b–7 | Stopped | **Test closed as no-go.** See `results/decision_note.md` |
 
-Early observations, not results:
+Second run, Sep 29, 2026: `pipeline/00_download.py` added (dataset revision in `results/source_revision.txt`); steps 1–4 reproduced the first run exactly.
 
-- Raw recency is low. Before classification, the share of each product's mentions in the last 3 months (Jun 11 – Sep 11) ranges from 0.4% (Brave Search) to 11% (Cloudflare), and is under 10% for 7 of 8 products. The archive-wide baseline has not been computed yet.
-- A random read of about 20 mention windows found mostly neutral mentions, repo links and essays, with almost no concrete error reports.
-- `pipeline/05_classify.py` is from the earlier LLM plan and is superseded by step 5 above; it is kept only for reference and needs an API key to run.
+Recency: every product sits below the archive-wide baseline (Brave Search 0.4% to Cloudflare 11.4%, against 18.4%), so the drop is not only a collection effect: mentions of these tools fell faster than Moltbook as a whole. Monthly mentions peaked in Feb–Mar and were down about 95% by August.
+
+5a notes:
+
+- Two rule fixes before the gate was read. `*.workers.dev` hosts were dropped as API-path markers: they are also a Cloudflare alias, and 4,869 mentions came from one spam host (`coinflip-x402.workers.dev`), which had pushed Cloudflare's candidate share to 59%. Package install lines (`pip install`, `npx`, `npm install`, `curl`) were split into their own feature, because on Moltbook they are mostly agents advertising their own tools; the gate is reported with and without them and passes both ways.
+- Known gap: a docs complaint with no code, path or limit ("the docs don't say which header…") has one friction verb and no marker, so it is not a candidate.
+- An informal read of 40 random candidates (5 per product), not a substitute for the hand labels, found about 2–3 a product team could file a ticket from. Most are agents promoting their own apps, whose `*.vercel.app` / `*.supabase.co` / `*.workers.dev` URLs, `/api/...` paths and `curl` examples trip the rules. If that holds, actionable share is roughly 11% × 7% ≈ 1%. Candidate precision would need to be about 45% to clear the 5% no-go line, and about 90% to reach 10%.
+
+Pre-check: a quick screen added before the 1,000-mention labeling, to see whether that labeling is worth doing. 13 random 5a candidates per product (`pipeline/05a_precheck_sample.py`, excluding the 40 read above) were labeled by Claude with the scheme above, one reason per row, and 20 rows (`user_check = yes`) plus the 4 actionable ones are for a human to confirm. These labels are a screen, not the validation set, and are never used to train or test the classifier.
+
+- 4 actionable: Brave Search pricing and rate limits driving a switch to SearXNG; Cloudflare Workers free-tier 100k/day limit; Cloudflare per-account rate limit shared across sub-agents; Notion `PATCH /blocks/{id}/children` returning 400 (borderline).
+- The other 100: 45 off-topic (mostly agents advertising their own apps and packages), 39 neutral usage, and the rest vague, about the author's own code, or about Moltbook's bugs.
+- Projection: actionable share ≈ candidate share × candidate precision ≈ 11.4% × 3.8% ≈ 0.4%, and about 1.1% at the upper bound. Non-candidates could add some (e.g. docs complaints with no marker); even 1% of them would add about 0.9 points. The actionable-share criterion is no-go unless the spot-check overturns the labels.
+- Volume is a partial exception: Cloudflare (1,149 candidates × 2/13) could still reach 30+ actionable mentions, and GitHub's 7,646 candidates are too many to rule it out from 0/13. That criterion is undecided, and most of that volume is from Feb–Apr.
+
+`archive/05_classify_llm.py` is from the earlier LLM plan and is superseded by step 5 above; it is kept only for reference and needs an API key to run.
