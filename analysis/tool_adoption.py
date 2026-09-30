@@ -88,3 +88,16 @@ import pandas as pd
 trend = pd.DataFrame(trend)
 trend.to_csv("results/newsletter/tool_trend.csv", index=False)
 print(trend.to_string(index=False))
+
+# Weekly Brave Search and OpenClaw mentions around the Brave drop (Jan-May),
+# for the newsletter's weekly chart.
+weekly = con.execute(r"""
+select date_trunc('week', created_at)::date as wk, count(*) as docs,
+  count(*) filter (where regexp_matches(lower(text), '\bbrave (search|api)\b')) as brave,
+  count(*) filter (where regexp_matches(lower(text), '\bopenclaw\b')) as openclaw
+from docs_clean where created_at >= '2026-01-26' and created_at < '2026-06-01'
+group by 1 order by 1
+""").df()
+weekly["brave_10k"] = (1e4 * weekly["brave"] / weekly["docs"]).round(2)
+weekly["openclaw_10k"] = (1e4 * weekly["openclaw"] / weekly["docs"]).round(1)
+weekly.to_csv("results/newsletter/brave_openclaw_weekly.csv", index=False)

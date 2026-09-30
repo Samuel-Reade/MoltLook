@@ -2,6 +2,7 @@ anthropic==1.9.0
 datasketch==2.0.0
 duckdb==1.5.6
 huggingface_hub==2.0.0
+matplotlib==3.11.2
 pandas==3.0.6
 pyarrow==25.0.1
 pytz==2026.4
